@@ -31,17 +31,17 @@ from ctapipe.io.containers import MCHeaderContainer
 
 def load_config(name):
     """Load YAML configuration file.
-    
+
     Parameters
     ----------
     name : str
         Path of the configuration file.
-    
+
     Returns
     -------
     cfg : dict
         Dictionary containing all the configuration information.
-    
+
     """
     try:
         with open(name, "r") as stream:
@@ -135,7 +135,7 @@ def GADF_mapper(debug=False, config=None):
     It should be always based on the latest version of [1]_.
     All readers should call this function to map input data from different
     formats.
-    
+
     Parameters
     ----------
     config : dict
@@ -148,11 +148,11 @@ def GADF_mapper(debug=False, config=None):
 
     columns : dict
         Dictionary that maps user-defined DL2 quantities to the GADF equivalent.
-        
+
     Notes
     -----
-    
-    .. [1] https://gamma-astro-data-formats.readthedocs.io/en/latest/ 
+
+    .. [1] https://gamma-astro-data-formats.readthedocs.io/en/latest/
 
     """
 
@@ -191,13 +191,13 @@ def read_FITS(config=None, infile=None, debug=False):
     Notes
     -----
     For the moment this reader is specific to EventDisplay.
-    
+
     If DL2 files in FITS format are supposed to have all the same structure,
     then this reader is fine; if not, this reader will become
     read_EventDisplay_FITS and others will follow.
-    
+
     In general, though, for the the final FITS reader or any other specific one:
-    
+
     - if GADF mandatory columns names are missing, only a warning is raised,
     - it is possible to add custom columns.
 
@@ -237,6 +237,52 @@ def read_FITS(config=None, infile=None, debug=False):
     return DL2data
 
 
+def read_protopipe(config=None, infile=None, debug=False):
+    """Store contents of an HDF5 file produced by the protopipe pipeline
+    into one or more astropy tables.
+
+    Parameters
+    ----------
+    config : str
+        Path of the DL2 file.
+    infile : str
+        Path of the DL2 file.
+    debug  : bool
+        If True, print some debugging information.
+
+    Returns
+    -------
+
+    table : astropy.Table
+        Astropy Table object containing the reconstructed events information.
+
+    Notes
+    -----
+    For the moment this is an HDF5 reader specific to protopipe.
+
+    As for the the final FITS readers or any other specific one:
+
+    - if GADF mandatory columns names are missing, only a warning is raised,
+    - it is possible to add custom columns.
+
+    """
+    DL2data = dict()
+
+    colnames = GADF_mapper(debug, config=config)
+
+    # later differentiate between EVENTS, GTI & POINTING
+
+    # INSERT HERE ANALOG CODE FOR PROTOPIPE DL2 FORMAT
+
+    # Convert to pandas dataframe
+    # This is only for compatibility with current code of pyirf (ex protopipe.perf)
+    # we can of course decide to use only astropy tables or something else
+
+    DL2data = pd.DataFrame.from_dict(DL2data)
+
+    return DL2data
+
+
 def write(cuts=None, irfs=None):
     """DL3 data writer.
 
@@ -244,10 +290,10 @@ def write(cuts=None, irfs=None):
     For the moment it is just a dummy function for reference.
     Final format is still unclear, we are trying to follow the latest
     version of GADF [1]_.
-    
+
     Notes
     -----
-    
+
     .. [1] https://gamma-astro-data-formats.readthedocs.io/en/latest/
 
     """
