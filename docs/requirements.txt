@@ -3,6 +3,7 @@ gammapy==0.8
 ipython
 numpy
 numpydoc
+pandas
 pygments >= 2.5.1
 pytest
 pyyaml
