@@ -9,3 +9,4 @@ sphinx
 nbsphinx
 sphinx-automodapi
 sphinx_rtd_theme
+yaml
