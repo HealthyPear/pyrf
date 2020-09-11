@@ -1,5 +1,5 @@
 astropy
-ctapipe
+ctapipe==0.7
 gammapy==0.8
 ipython
 numpy
