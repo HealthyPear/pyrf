@@ -1,3 +1,4 @@
+astropy
 ipython
 numpy
 numpydoc
