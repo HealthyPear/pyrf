@@ -5,7 +5,7 @@ numpy
 numpydoc
 pygments >= 2.5.1
 pyyaml
-pytables
+tables
 rinohtype
 sphinx
 nbsphinx
