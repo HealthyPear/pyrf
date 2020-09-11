@@ -1,4 +1,5 @@
 astropy
+gammapy==0.8
 ipython
 numpy
 numpydoc
