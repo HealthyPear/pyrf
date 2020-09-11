@@ -4,9 +4,9 @@ ipython
 numpy
 numpydoc
 pygments >= 2.5.1
+pyyaml
 rinohtype
 sphinx
 nbsphinx
 sphinx-automodapi
 sphinx_rtd_theme
-yaml
