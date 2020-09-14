@@ -105,8 +105,12 @@ def read_simu_info_merged_hdf5(filename):
     return combined_mcheader
 
 
-def get_simu_info(filepath, particle_name, config={}):
-    """Read simulated information from file and return config."""
+def get_simu_info(filepath, particle_name, config=None):
+    """
+    read simu info from file and return config
+    """
+    if config is None:
+        config = {}
 
     if "particle_information" not in config:
         config["particle_information"] = {}
@@ -123,16 +127,12 @@ def get_simu_info(filepath, particle_name, config={}):
     cfg["diff_cone"] = simu.max_viewcone_radius
     cfg["gen_gamma"] = -simu.spectral_index
 
-    print(particle_name)
-    print(cfg)
-
     return config
 
 
-def GADF_mapper(debug=False, config=None):
+def internal_dataformat_mapper(debug=False, config=None):
     """Defines the format to be used internally after input.
 
-    It should be always based on the latest version of [1]_.
     All readers should call this function to map input data from different
     formats.
 
@@ -147,30 +147,23 @@ def GADF_mapper(debug=False, config=None):
     -------
 
     columns : dict
-        Dictionary that maps user-defined DL2 quantities to the GADF equivalent.
-
-    Notes
-    -----
-
-    .. [1] https://gamma-astro-data-formats.readthedocs.io/en/latest/
+        Dictionary that maps user-defined DL2 quantities to the internal equivalent.
 
     """
 
     columns = {}
 
-    # columns["GADF_DEF"] = config["column_definition"]["USER DEF"]
-
     for key in config["column_definition"]:
         columns[key] = config["column_definition"][key]
 
     if debug:
-        print("MAPPING TO GADF....")
+        print("Mapping to internal data format....")
         print(columns)
 
     return columns
 
 
-def read_FITS(config=None, infile=None, debug=False):
+def read_FITS(config=None, infile=None, pipeline="EventDisplay", debug=False):
     """
     Store contents of a FITS file into one or more astropy tables.
 
@@ -205,7 +198,7 @@ def read_FITS(config=None, infile=None, debug=False):
     """
     DL2data = dict()
 
-    colnames = GADF_mapper(debug, config=config)
+    colnames = internal_dataformat_mapper(debug, config=config)
 
     # later differentiate between EVENTS, GTI & POINTING
 
@@ -217,22 +210,21 @@ def read_FITS(config=None, infile=None, debug=False):
 
         # map the keys
 
-        for GADF_key, USER_key in colnames.items():
+        for INTERNAL_key, USER_key in colnames.items():
 
-            print(f"Checking if {GADF_key} exists...")
+            print(f"Checking if {INTERNAL_key} equivalent is defined...")
 
-            if (
-                USER_key in EVENTS.columns.names
-            ):  # this will take into account also custom columns
-                # for Event Display EVENTS is HDU 1
-                DL2data[GADF_key] = EVENTS.data[USER_key]
-            else:  # later use better warnings
-                print(f"WARNING : {GADF_key} not present in DL2 data!")
+            # check for mispellings in the config file
+            if USER_key in EVENTS.columns.names:
+                if pipeline == "EventDisplay":
+                    # for Event Display EVENTS is HDU 1
+                    DL2data[INTERNAL_key] = EVENTS.data[USER_key]
+                else:
+                    print("WARNING : we support only EventDisplay for now!")
+            else:
+                print(f"WARNING : {USER_key} missing from DL2 data!")
 
     # Convert to pandas dataframe
-    # This is only for compatibility with current code of pyirf (ex protopipe.perf)
-    # we can of course decide to use only astropy tables or something else
-
     DL2data = pd.DataFrame.from_dict(DL2data)
 
     return DL2data
