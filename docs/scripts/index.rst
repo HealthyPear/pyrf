@@ -27,8 +27,13 @@ make_DL3
 
 The usage is the following,
 
+<<<<<<< Updated upstream
 .. code-block::
   
+=======
+.. code::
+
+>>>>>>> Stashed changes
   >$ python $PYIRF/make_DL3.py -h
   usage: make_DL3.py [-h] --config_file CONFIG_FILE --obs_time OBS_TIME
                    --pipeline PIPELINE [--debug]
@@ -52,8 +57,13 @@ lst_performance
   
 The usage is the following,
 
+<<<<<<< Updated upstream
 .. code-block::
   
+=======
+.. code::
+
+>>>>>>> Stashed changes
   >$ python $PYIRF/lst_performance.py -h
   usage: lst_performance.py [-h] [--obs_time OBS_TIME] --dl2_gamma
                           DL2_GAMMA_FILENAME --dl2_proton DL2_PROTON_FILENAME
