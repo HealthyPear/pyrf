@@ -16,7 +16,7 @@ At the moment there are 3 such scripts:
 - `lst_performance.py`, a script specific for LSTchain.
 
 .. todo::
-  
+
   Remove `make_performance.py`.
 
 Details
@@ -27,13 +27,8 @@ make_DL3
 
 The usage is the following,
 
-<<<<<<< Updated upstream
-.. code-block::
-  
-=======
-.. code::
+.. code-block:: bash
 
->>>>>>> Stashed changes
   >$ python $PYIRF/make_DL3.py -h
   usage: make_DL3.py [-h] --config_file CONFIG_FILE --obs_time OBS_TIME
                    --pipeline PIPELINE [--debug]
@@ -54,16 +49,11 @@ The configuration file to be used should be `config.yaml` (:ref:`resources`).
 
 lst_performance
 ---------------
-  
+
 The usage is the following,
 
-<<<<<<< Updated upstream
-.. code-block::
-  
-=======
-.. code::
+.. code-block:: bash
 
->>>>>>> Stashed changes
   >$ python $PYIRF/lst_performance.py -h
   usage: lst_performance.py [-h] [--obs_time OBS_TIME] --dl2_gamma
                           DL2_GAMMA_FILENAME --dl2_proton DL2_PROTON_FILENAME
@@ -86,9 +76,9 @@ The usage is the following,
     --conf CONFIG_FILE, -c CONFIG_FILE
                           Optional. Path to a config file. If none is given, the
                           standard performance config is used
-                          
+
 .. todo::
-  
+
   Add further information.
 
 Reference/API
